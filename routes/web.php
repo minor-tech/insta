@@ -4,7 +4,10 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
-    return view('main');
+    return view('dashboard');
+});
+Route::get('/explore', function () {
+    return view('blade.explore');
 });
 
 Route::get('/dashboard', function () {

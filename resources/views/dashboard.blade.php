@@ -1,15 +1,26 @@
-<x-app-layout>
-    <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-            {{ __('Dashboard') }}
-        </h2>
-    </x-slot>
+@extends('blade.home')
 
-    <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="p-6 text-gray-900 dark:text-gray-100">
-                    {{ __("You're logged in!") }}
+<x-app-layout>
+    <div class="container-fluid">
+        <div class="row justify-content-center">
+            <!-- Left Section (Instagram image) -->
+            <div class="col-md-6 d-none d-md-block">
+                <img src="https://via.placeholder.com/350x650?text=Instagram+App" alt="Instagram App" class="img-fluid">
+            </div>
+
+            <!-- Right Section (Welcome Message) -->
+            <div class="col-md-6 d-flex justify-content-center align-items-center">
+                <div class="card" style="width: 100%; max-width: 400px;">
+                    <div class="card-body text-center">
+                        <h1>Welcome to Instagram</h1>
+
+                        @auth
+                            <p>You are logged in as {{ auth()->user()->name }}!</p>
+                        @else
+                            <p>Please <a href="{{ route('login') }}">login</a> or <a
+                                    href="{{ route('register') }}">register</a> to continue.</p>
+                        @endauth
+                    </div>
                 </div>
             </div>
         </div>
