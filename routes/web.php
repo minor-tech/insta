@@ -1,18 +1,21 @@
 <?php
 
-use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Middleware\AuthenticateUser;
+use App\Http\Controllers\ProfileController;
 
+Route::middleware([AuthenticateUser::class])->group(function () {
+    Route::get('/explore', function () {
+        return view('blade.explore');
+    });
+
+    Route::get('/dashboard', function () {
+        return view('dashboard');
+    })->name('dashboard');
+});
 Route::get('/', function () {
     return view('dashboard');
 });
-Route::get('/explore', function () {
-    return view('blade.explore');
-});
-
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->name('dashboard');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
