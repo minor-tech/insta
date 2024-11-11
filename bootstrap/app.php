@@ -1,20 +1,30 @@
 <?php
 
 use Illuminate\Foundation\Application;
-use App\Http\Middleware\AuthenticateUser;
-use Illuminate\Foundation\Configuration\Exceptions;
-use Illuminate\Foundation\Configuration\Middleware;
+use Illuminate\Auth\Middleware\Authenticate;
+use Illuminate\Routing\Middleware\ThrottleRequests;
 
 return Application::configure(basePath: dirname(__DIR__))
-    ->withRouting(
-        web: __DIR__ . '/../routes/web.php',
-        commands: __DIR__ . '/../routes/console.php',
-        health: '/up',
-    )
-    ->withMiddleware(function (Middleware $middleware) {
 
-        $middleware->add(AuthenticateUser::class);
+    ->withRouting(function () {
+        // Include the main web routes
+        require __DIR__ . '/../routes/web.php';
+
+        // Include additional routes like auth.php
+        require __DIR__ . '/../routes/auth.php';
+
+        // Include console routes if needed
+        require __DIR__ . '/../routes/console.php';
     })
-    ->withExceptions(function (Exceptions $exceptions) {
-        //
-    })->create();
+
+    ->withMiddleware(function ($middleware) {
+        // Define middleware globally here
+        $middleware->push(Authenticate::class); // Authentication middleware
+        $middleware->push(ThrottleRequests::class); // Rate limiting middleware
+    })
+
+    ->withExceptions(function ($exceptions) {
+        // Exception handling logic
+    })
+
+    ->create();

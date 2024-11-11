@@ -13,14 +13,14 @@
                 <div class="card" style="width: 100%; max-width: 400px;">
                     <div class="card-body text-center">
                         <h1>Welcome to Instagram</h1>
-                        @if (auth()->check())
+                        @if (auth()->check() && auth()->user())
                             <p>You are logged in as {{ auth()->user()->name }}!</p>
                         @else
                             <p>Please <a href="{{ route('login') }}">login</a> or <a
                                     href="{{ route('register') }}">register</a> to continue.</p>
                         @endif
-
                     </div>
+
                 </div>
             </div>
         </div>

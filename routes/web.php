@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Middleware\AuthenticateUser;
 use App\Http\Controllers\ProfileController;
+use GuzzleHttp\Middleware;
 
 Route::middleware([AuthenticateUser::class])->group(function () {
     Route::get('/explore', function () {
@@ -13,9 +14,9 @@ Route::middleware([AuthenticateUser::class])->group(function () {
         return view('dashboard');
     })->name('dashboard');
 });
-Route::get('/', function () {
+Route::get('/dashboard', function () {
     return view('dashboard');
-});
+})->Middleware(AuthenticateUser::class);
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
