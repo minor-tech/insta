@@ -2,15 +2,27 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\ProfileUpdateRequest;
-use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Redirect;
+use App\Models\Post;
+use App\Models\User;
 use Illuminate\View\View;
+use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Redirect;
+use App\Http\Requests\ProfileUpdateRequest;
 
 class ProfileController extends Controller
 {
+    public function show($username)
+    {
+        // Fetch user and their posts
+        $user = User::where('username', $username)->firstOrFail();
+        $posts = Post::where('user_id', $user->id)->get();
+        $value = 'some value';
+
+        return view('profile', compact('user', 'posts', 'value'));
+    }
     /**
      * Display the user's profile form.
      */
@@ -19,6 +31,12 @@ class ProfileController extends Controller
         return view('profile.edit', [
             'user' => $request->user(),
         ]);
+    }
+
+    public function profile($username)
+    {
+        $user = User::where('username', $username)->with('posts', 'followers', 'following')->firstOrFail();
+        return view('profile.show', ['user' => $user, 'posts' => $user->posts]);
     }
 
     /**

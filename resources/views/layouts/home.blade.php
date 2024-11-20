@@ -19,7 +19,7 @@
         <div class="row">
             <!-- Sidebar Section -->
             <nav class="col-md-3 col-lg-2 bg-white border-end vh-100 d-flex flex-column align-items-start p-3">
-                @yield('sidebar')
+                @include('components.sidebar')
             </nav>
 
             <!-- Main Feed Section -->
