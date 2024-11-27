@@ -3,11 +3,15 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\UserController;
 
 Route::middleware('guest')->group(function () {
     Route::get('/', function () {
-        return view('layouts.guest');
-    });
+        return view('layouts.guest', ['title' => 'Guest Page']);
+    })->name('guest');
+    Route::get('/sign-up', function () {
+        return view('layouts.register');
+    })->name('register');
 });
 
 Route::middleware('auth')->group(function () {
@@ -18,9 +22,10 @@ Route::middleware('auth')->group(function () {
     Route::post('/post/create', [PostController::class, 'create'])->name('post.create');
 
 
-    Route::get('/home', function () {
-        return view('layouts.home');
-    })->name('home');
+    Route::get('/home', [PostController::class, 'index'])->name('home');
+    Route::get('/explore', function () {
+        return view('explore');
+    });
 });
 
 require __DIR__ . '/auth.php';

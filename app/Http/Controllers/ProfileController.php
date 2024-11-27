@@ -16,6 +16,8 @@ class ProfileController extends Controller
 {
     public function show($username)
     {
+
+        ini_set('max_execution_time', 120);
         // Fetch user and their posts
         $user = User::where('username', $username)->firstOrFail();
         $posts = Post::where('user_id', $user->id)->get();

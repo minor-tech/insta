@@ -1,3 +1,5 @@
+@extends('layouts.home')
+
 @section('content')
     <!-- Main Feed Section -->
     <div class="feed-section">
